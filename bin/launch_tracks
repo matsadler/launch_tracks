@@ -1,0 +1,92 @@
+#!/usr/bin/env ruby
+require "fileutils"
+
+name = FileUtils.pwd.split("/").last
+label = "com.github.matsadler.launch_tracks.#{name}"
+logdir = "/tmp"
+plist_name = "#{label}.plist"
+plist_dir = File.expand_path("~/Library/LaunchAgents")
+plist_path = "#{plist_dir}/#{plist_name}"
+
+command, port = ARGV
+
+help = "Usage: launch_tracks help|setup PORTNUMBER|load|unload|restart|rm"
+
+case command
+when "help", "-h", "--help"
+  puts help
+  exit
+when "load"
+  exec "launchctl load #{plist_path}"
+when "unload"
+  exec "launchctl unload #{plist_path}"
+when "restart"
+  FileUtils.touch("restart.txt")
+  exit
+when "rm"
+  `launchctl unload #{plist_path}`
+  FileUtils.rm(plist_path)
+  exit
+when "setup"
+  abort help unless port =~ /^\d+$/
+  # continue
+else
+  abort help
+end
+
+plist = <<-PLIST
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  
+  <key>Label</key>
+  <string>#{label}</string>
+  
+  <key>WorkingDirectory</key>
+  <string>#{FileUtils.pwd}</string>
+  
+  <key>StandardOutPath</key>
+  <string>#{logdir}/#{name}-out.log</string>
+  
+  <key>StandardErrorPath</key>
+  <string>#{logdir}/#{name}-err.log</string>
+  
+  <key>EnvironmentVariables</key>
+  <dict>
+    #{ENV.map do |key,string|
+    "<key>#{key}</key>
+    <string>#{string}</string>"
+  end.join("\n    ")}
+  </dict>
+  
+  <key>ProgramArguments</key>
+  <array>
+    #{if File.exist?("Gemfile")
+    "<string>bundle</string>
+    <string>exec</string>
+    "
+    end}<string>rackup</string>
+    <string>-rlaunch_tracks</string>
+    <string>-slaunch_tracks</string>
+  </array>
+  
+  <key>Sockets</key>
+  <dict>
+    <key>http</key>
+    <dict>
+      <key>SockServiceName</key>
+      <string>#{port}</string>
+      <key>SockFamily</key>
+      <string>IPv4</string>
+    </dict>
+  </dict>
+  
+</dict>
+</plist>
+PLIST
+
+FileUtils.mkdir_p(plist_dir)
+File.open(plist_path, "w") {|f| f << plist}
+
+exec "launchctl load #{plist_path}"

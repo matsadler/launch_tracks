@@ -1,0 +1,63 @@
+= LaunchTracks
+
+LaunchTracks uses launchd and the Tracks Rack server to start your Ruby web
+apps on demand.
+
+== Install
+
+  gem install launch_tracks
+
+== Usage
+
+  cd /path/to/myapp
+  launch_tracks setup 4000
+
+Your app will automatically start once you visit http://localhost:4000/ and
+shutdown after 10 minutes idle.
+
+The output from stdout and stderr will be available at /tmp/myapp-out.txt and /tmp/myapp-err.txt respectively.
+
+To restart your app <tt>touch restart.txt</tt> in your app's base directory.
+
+=== Commands
+
+[setup]   Creates a launchd plist for your app in ~/Library/LaunchAgents, and
+          loads it, making your app available for on-demand startup. Requires a
+          port number for your app to run on as an argument.
+          Example: <tt>launch_tracks setup 4000</tt>
+
+[load]    Loads your app's launchd plist from ~/Library/LaunchAgents, making
+          your app available for on-demand startup.
+
+[unload]  Unloads your app's launchd plist from ~/Library/LaunchAgents,
+          disabling on-demand startup.
+
+[restart] Restart your app. The same can be achieved with
+          <tt>touch restart.txt</tt> in your app's base directory.
+
+[rm]      Unload and remove your app's plist from ~/Library/LaunchAgents,
+          permanently disabling it.
+
+== Licence
+
+(The MIT License)
+
+Copyright (c) 2012 Matthew Sadler
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
