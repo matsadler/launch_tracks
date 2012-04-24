@@ -10,6 +10,17 @@ apps on demand.
 == Usage
 
   cd /path/to/myapp
+
+Edit your gemfile to add 
+
+  gem "launch_tracks"
+
+then run
+
+  bundle install
+
+and one-time setup
+
   launch_tracks setup 4000
 
 Your app will automatically start once you visit http://localhost:4000/ and
