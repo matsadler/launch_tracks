@@ -9,9 +9,14 @@ apps on demand.
 
 == Usage
 
+To set up a Rack app:
+
   cd /path/to/myapp
 
-Edit your gemfile to add 
+  launch_tracks setup 4000
+
+If there's a Gemfile in your app's base directory then LaunchTracks will run
+your app with <tt>bundle exec</tt>. You'll have to edit your gemfile to add
 
   gem "launch_tracks"
 
@@ -19,16 +24,22 @@ then run
 
   bundle install
 
-and one-time setup
-
-  launch_tracks setup 4000
-
-Your app will automatically start once you visit http://localhost:4000/ and
+Your app will automatically start whenever you visit http://localhost:4000/ and
 shutdown after 10 minutes idle.
 
-The output from stdout and stderr will be available at /tmp/myapp-out.txt and /tmp/myapp-err.txt respectively.
+The output from stdout and stderr will be available at /tmp/myapp-out.txt and
+/tmp/myapp-err.txt respectively.
 
 To restart your app <tt>touch restart.txt</tt> in your app's base directory.
+
+=== Environment Variables
+
+LaunchTracks will run you apps with the same environment variables as when it
+was set up. In the following example, bot VAR1 and VAR2 would be available to
+the app.
+
+  export VAR1=foo
+  VAR2=bar launch_tracks setup 4000
 
 === Commands
 
