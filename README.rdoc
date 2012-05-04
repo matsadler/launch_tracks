@@ -34,8 +34,8 @@ To restart your app <tt>touch restart.txt</tt> in your app's base directory.
 
 === Environment Variables
 
-LaunchTracks will run you apps with the same environment variables as when it
-was set up. In the following example, bot VAR1 and VAR2 would be available to
+LaunchTracks will run your apps with the same environment variables as when it
+was set up. In the following example, both VAR1 and VAR2 would be available to
 the app.
 
   export VAR1=foo
