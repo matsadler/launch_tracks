@@ -1,5 +1,6 @@
 #!/usr/bin/env ruby
 require "fileutils"
+require 'yaml'
 
 name = File.basename(FileUtils.pwd)
 label = "com.github.matsadler.launch_tracks.#{name}"
@@ -28,6 +29,10 @@ when "rm"
   FileUtils.rm(plist_path)
   exit
 when "setup"
+  file = File.join(FileUtils.pwd, '.foreman')
+  if !String.try_convert(port) && File.exists?(file)
+    port = YAML.load(File.read(file))['port'].to_s
+  end
   abort help unless port =~ /^\d+$/
   # continue
 else
