@@ -34,6 +34,7 @@ when "setup"
     port = YAML.load(File.read(file))['port'].to_s
   end
   abort help unless port =~ /^\d+$/
+  puts "Setting up on port:#{port}"
   # continue
 else
   abort help
