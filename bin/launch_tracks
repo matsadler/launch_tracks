@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 require "fileutils"
 
-name = FileUtils.pwd.split("/").last
+name = File.basename(FileUtils.pwd)
 label = "com.github.matsadler.launch_tracks.#{name}"
 logdir = "/tmp"
 plist_name = "#{label}.plist"
