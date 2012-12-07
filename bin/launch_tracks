@@ -21,7 +21,7 @@ when "load"
 when "unload"
   exec "launchctl unload #{plist_path}"
 when "restart"
-  FileUtils.touch("restart.txt")
+  FileUtils.touch("tmp/restart.txt")
   exit
 when "rm"
   `launchctl unload #{plist_path}`
@@ -29,6 +29,7 @@ when "rm"
   exit
 when "setup"
   abort help unless port =~ /^\d+$/
+  FileUtils.mkdir_p 'tmp'
   # continue
 else
   abort help

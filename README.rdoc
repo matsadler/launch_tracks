@@ -55,7 +55,7 @@ the app.
           disabling on-demand startup.
 
 [restart] Restart your app. The same can be achieved with
-          <tt>touch restart.txt</tt> in your app's base directory.
+          <tt>touch tmp/restart.txt</tt> in your app's base directory.
 
 [rm]      Unload and remove your app's plist from ~/Library/LaunchAgents,
           permanently disabling it.
